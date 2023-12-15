@@ -1,4 +1,5 @@
-
+using api_todo_lisk.DataAccess;
+using api_todo_lisk;
 namespace api_todo_lisk
 {
     public class Program
@@ -13,6 +14,7 @@ namespace api_todo_lisk
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<AppDbContext>();
 
             var app = builder.Build();
 
@@ -27,8 +29,8 @@ namespace api_todo_lisk
 
             app.UseAuthorization();
 
-
-            app.MapControllers();
+            app.MapRoutes();
+           
 
             app.Run();
         }

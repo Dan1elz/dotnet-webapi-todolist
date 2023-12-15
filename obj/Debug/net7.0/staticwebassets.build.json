@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "a/jfihnrg2tJFo9zKE0R1pJ8LhPz0GxGaoAYM/bBGok=",
+  "Source": "api-todo-lisk",
+  "BasePath": "_content/api-todo-lisk",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
