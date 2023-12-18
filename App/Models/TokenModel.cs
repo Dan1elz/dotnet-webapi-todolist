@@ -6,33 +6,26 @@ namespace api_todo_lisk.App.Models
     public class TokenModel
     {
         [Key]
-        public Guid TaskId { get; init; }
+        public Guid TokenId { get; init; }
 
         [Required]
         [ForeignKey("UserModel")]
-        public Guid UserId { get; init; }
+        public Guid TokenUserId { get; init; }
 
         [Required]
-        public string? TaskTitle { get; init; }
+        public string? TokenValue { get; init; }
 
         [Required]
-        public string? TaskDescription { get; init; }
+        public DateTime TokenCreatedAt { get; init; }
 
-        [Required]
-        public bool TaskCompleted { get; init; }
+        public TokenModel() {   }
 
-        public TokenModel()
+        public TokenModel(Guid userid, string value)
         {
-            // Construtor sem parâmetros
-        }
-
-        public TokenModel(Guid userid, string tasktitle, string taskdescription, bool taskcompleted)
-        {
-            TaskId = Guid.NewGuid();
-            UserId = userid;
-            TaskTitle = tasktitle;
-            TaskDescription = taskdescription;
-            TaskCompleted = taskcompleted;
+            TokenId = Guid.NewGuid();
+            TokenUserId = userid;
+            TokenValue = value;
+            TokenCreatedAt = DateTime.Now;
         }
     }
 }

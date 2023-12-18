@@ -11,8 +11,8 @@ using api_todo_lisk.DataAccess;
 namespace api_todo_lisk.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231215024053_migrationunic")]
-    partial class migrationunic
+    [Migration("20231217025816_migrationUniq")]
+    partial class migrationUniq
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,25 +74,21 @@ namespace api_todo_lisk.DataAccess.Migrations
 
             modelBuilder.Entity("api_todo_lisk.App.Models.TokenModel", b =>
                 {
-                    b.Property<Guid>("TaskId")
+                    b.Property<Guid>("TokenId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("TaskCompleted")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("TokenCreatedAt")
+                        .HasColumnType("TEXT");
 
-                    b.Property<string>("TaskDescription")
+                    b.Property<Guid>("TokenUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TokenValue")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("TaskTitle")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("TaskId");
+                    b.HasKey("TokenId");
 
                     b.ToTable("Tokens");
                 });

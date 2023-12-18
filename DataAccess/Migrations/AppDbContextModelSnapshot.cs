@@ -71,25 +71,21 @@ namespace api_todo_lisk.DataAccess.Migrations
 
             modelBuilder.Entity("api_todo_lisk.App.Models.TokenModel", b =>
                 {
-                    b.Property<Guid>("TaskId")
+                    b.Property<Guid>("TokenId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("TaskCompleted")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("TokenCreatedAt")
+                        .HasColumnType("TEXT");
 
-                    b.Property<string>("TaskDescription")
+                    b.Property<Guid>("TokenUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TokenValue")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("TaskTitle")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("TaskId");
+                    b.HasKey("TokenId");
 
                     b.ToTable("Tokens");
                 });

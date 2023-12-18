@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace api_todo_lisk.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class migrationunic : Migration
+    public partial class migrationUniq : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,15 +46,14 @@ namespace api_todo_lisk.DataAccess.Migrations
                 name: "Tokens",
                 columns: table => new
                 {
-                    TaskId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TaskTitle = table.Column<string>(type: "TEXT", nullable: false),
-                    TaskDescription = table.Column<string>(type: "TEXT", nullable: false),
-                    TaskCompleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                    TokenId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    TokenUserId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    TokenValue = table.Column<string>(type: "TEXT", nullable: false),
+                    TokenCreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tokens", x => x.TaskId);
+                    table.PrimaryKey("PK_Tokens", x => x.TokenId);
                 });
 
             migrationBuilder.CreateTable(

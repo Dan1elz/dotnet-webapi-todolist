@@ -6,7 +6,6 @@ C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\api-todo-lisk
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\api-todo-lisk.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\api-todo-lisk.pdb
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Humanizer.dll
-C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.Data.Sqlite.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -67,3 +66,9 @@ C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\obj\Debug\net7.0\refint\api-to
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\obj\Debug\net7.0\api-todo-lisk.pdb
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\obj\Debug\net7.0\api-todo-lisk.genruntimeconfig.cache
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\obj\Debug\net7.0\ref\api-todo-lisk.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\JWT.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
