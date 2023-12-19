@@ -1,220 +1,209 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using api_todo_lisk.DataAccess;
 using api_todo_lisk.DataAccess.Dtos;
 using api_todo_lisk.App.Models;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Net;
+using api_todo_lisk.App.Services;
 
 namespace api_todo_lisk.App.Controllers
 {
-    public class UserController : Controller
+    public static class UserController
     {
-        private readonly string _secretKey;
-        public UserController() 
+        public static void UserRoutes(this WebApplication app)
         {
-            _secretKey = "adasdaklsdjalksdjaieakdlajd";
-        }
+            var userRoutes = app.MapGroup(prefix: "/user");
 
-        public async Task<IActionResult> GetUser(string authorizationHeader, AppDbContext context, CancellationToken ct)
-        {
-            try
+            userRoutes.MapGet("", handler: async (HttpContext httpContext, AppDbContext context, CancellationToken ct) =>
             {
-                if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
-                    return BadRequest("Token inválido");
+                try
+                {
+                    var token = httpContext.Request.Headers["Authorization"].ToString();
 
-                string token = authorizationHeader.Substring("Bearer ".Length);
+                    if (string.IsNullOrEmpty(token) || !token.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                        return Results.Conflict(error: "Token inválido ou ausente.");
 
-                var verifyToken = await context.Tokens
-               .FirstOrDefaultAsync(u => u.TokenValue == token, ct);
+                    token = token.Substring("Bearer ".Length).Trim();
 
-                if (verifyToken == null)
-                    return NotFound("Token não encontrado.");
 
-                var user = await context.Users
-                    .Where(u => u.Id == verifyToken.TokenUserId)
-                    .Select(u => new UserRequestDto(u.Id, u.Name, u.Lastname, u.Email))
-                    .SingleOrDefaultAsync(ct);
+                    var verifyToken = await context.Tokens
+                        .FirstOrDefaultAsync(u => u.TokenValue == token, ct);
 
-                if (user == null)
-                    return Conflict(error: "Usuario Não Encontrado");
+                    if (verifyToken == null)
+                        return Results.Conflict(error: "Token não encontrado.");
 
-                return Ok(new { data = user, message = "Usuario Logado com sucesso!" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Erro interno no servidor: " + ex);
-            }
-        }
-        public async Task<IActionResult> RegisterUser(RegisterUserRequestDto request, AppDbContext context, CancellationToken ct)
-        {
-            try
-            { 
-                bool isUserExists = await context.Users.AnyAsync(user => user.Email == request.Email, ct);
-            
-                if (isUserExists == true)
-                    return Conflict(error: "O Email já está registrado.");
-            
-                var newUser = new UserModel(request.Name, request.Lastname, request.Email, request.Password);
-                await context.Users.AddAsync(newUser, ct);
-                await context.SaveChangesAsync(ct);
+                    var user = await context.Users
+                        .Where(u => u.Id == verifyToken.TokenUserId)
+                        .Select(u => new UserRequestDto(u.Id, u.Name, u.Lastname, u.Email))
+                        .SingleOrDefaultAsync(ct);
 
-                return new ObjectResult(new { Status = 200, Message = "Usuario Cadastrado com sucesso!" }).ToString();
+                    if (user == null)
+                        return Results.Conflict(error: "Usuario não encontrado.");
 
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Erro interno no servidor: " + ex);
-            }
-        }
-        public async Task<IActionResult> LoginUser(LoginUserRequestDto request, AppDbContext context, CancellationToken ct)
-        {
-            try
-            {
-                bool isUserExists = await context.Users.AnyAsync(user => user.Email == request.Email, ct);
-
-                if (isUserExists == false)
-                { 
-                    return BadRequest("Usuário não encontrado");
+                    return Results.Ok(new { data = user, message = "Usuario logado com sucesso!" });
                 }
-                
-                var loginUser = await context.Users
-                    .SingleOrDefaultAsync(u => u.Email == request.Email && u.Password == request.Password, ct);
-
-             
-
-                if (loginUser == null)
-                    return Conflict("Falha ao autenticar. Verifique suas credenciais.");
-
-                var existingToken = await context.Tokens
-                    .Where(u => u.TokenUserId == loginUser.Id)
-                    .FirstOrDefaultAsync(ct);
-
-                if (existingToken != null)
-                    return Ok(new { Data = existingToken.TokenValue, Message = "Token reutilizado" });
-
-                var claims = new[]
+                catch (Exception ex)
                 {
-                    new Claim(ClaimTypes.NameIdentifier, loginUser.Id.ToString())
-                    // Adicione mais claims conforme necessário
-                };
+                    return Results.BadRequest(new { message = "Erro interno no servidor: " + ex.Message });
 
-                var key = new SymmetricSecurityKey(Convert.FromBase64String(_secretKey));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                }
+            }).RequireAuthorization();
 
-                var token = new JwtSecurityToken(
-                    claims: claims,
-                    expires: DateTime.Now.AddDays(1),
-                    signingCredentials: creds
-                );
-
-                var newToken = new TokenModel(loginUser.Id, new JwtSecurityTokenHandler().WriteToken(token));
-                await context.Tokens.AddAsync(newToken, ct);
-                await context.SaveChangesAsync(ct);
-
-                return Ok(new { data = new JwtSecurityTokenHandler().WriteToken(token), message = "Token criado com sucesso!" });
-            }
-            catch (Exception ex)
+            userRoutes.MapPost("", handler: async (RegisterUserRequestDto request, AppDbContext context, CancellationToken ct) =>
             {
-                return StatusCode(500, "Erro interno no servidor: " + ex);
-            }
-        }
-        public async Task<IActionResult> DeactivateUser(string authorizationHeader, AppDbContext context, CancellationToken ct)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
-                    return BadRequest("Token inválido");
-
-                string token = authorizationHeader.Substring("Bearer ".Length);
-
-                var verifyToken = await context.Tokens
-               .FirstOrDefaultAsync(u => u.TokenValue == token, ct);
-
-                if (verifyToken == null)
-                    return NotFound("Token não encontrado.");
-
-                var user = await context.Users.FindAsync(verifyToken.TokenUserId);
-                if (user == null)
-                    return NotFound("Usuário não encontrado.");
-
-                using (var transaction = await context.Database.BeginTransactionAsync(ct))
+                try
                 {
-                    try
+                    var isUserExists = await context.Users
+                        .SingleOrDefaultAsync(user => user.Email == request.Email, ct);
+
+                    if (isUserExists != null)
                     {
-                        user.Delete();
-                        context.Tokens.Remove(verifyToken);
-                        await context.SaveChangesAsync(ct);
+                        if (isUserExists.Active == true)
+                            return Results.Conflict(error: "Usuario já existente");
 
-                        transaction.Commit();
-                        return Ok("Usuário desativado com sucesso!");
+
+                        return Results.Conflict(error: "Usuario desativado");
                     }
-                    catch (Exception ex)
+
+                    var newUser = new UserModel(request.Name, request.Lastname, request.Email, request.Password);
+                    await context.Users.AddAsync(newUser, ct);
+                    await context.SaveChangesAsync(ct);
+
+                    return Results.Ok("Usuário cadastrado com sucesso!");
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(new { message = "Erro interno no servidor: " + ex.Message });
+
+                }
+            });
+
+            userRoutes.MapPost("/login", handler: async (LoginUserRequestDto request, AppDbContext context, CancellationToken ct) =>
+            {
+                try
+                {
+                    bool isUserExists = await context.Users.AnyAsync(user => user.Email == request.Email, ct);
+
+                    if (isUserExists == false)
+                        return Results.Conflict(error: "Usuário não encontrado");
+
+                    var loginUser = await context.Users
+                        .SingleOrDefaultAsync(u => u.Email == request.Email && u.Password == request.Password && u.Active == true, ct);
+                    if (loginUser == null)
+                        return Results.Conflict(error: "Falha ao autentificar. Verifique os dados enviados");
+
+                    var tokenVerify = await context.Tokens
+                        .Where(u => u.TokenUserId == loginUser.Id)
+                        .FirstOrDefaultAsync(ct);
+
+                    if (tokenVerify != null)
+                        return Results.Ok(new { data = tokenVerify.TokenValue, message = "Token Reutilizado" });
+
+
+                    var token = TokensService.GenerateToken(loginUser.Id);
+
+                    var newToken = new TokenModel(loginUser.Id, token.TokenValue ?? throw new ArgumentNullException(nameof(token.TokenValue)));
+                    await context.Tokens.AddAsync(newToken, ct);
+                    await context.SaveChangesAsync(ct);
+
+                    return Results.Ok(new { data = token.TokenValue, message = "Token Criado." });
+
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(new { message = "Erro interno no servidor: " + ex.Message });
+
+                }
+            });
+
+            userRoutes.MapDelete("", handler: async (HttpContext httpContext, AppDbContext context, CancellationToken ct) =>
+            {
+                try
+                {
+                    var token = httpContext.Request.Headers["Authorization"].ToString();
+
+                    if (string.IsNullOrEmpty(token) || !token.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                        return Results.Conflict(error: "Token inválido ou ausente.");
+
+                    token = token.Substring("Bearer ".Length).Trim();
+
+                    var verifyToken = await context.Tokens
+                        .FirstOrDefaultAsync(u => u.TokenValue == token, ct);
+
+                    if (verifyToken == null)
+                        return Results.Conflict(error: "Token não encontrado.");
+
+                    var user = await context.Users.FindAsync(verifyToken.TokenUserId, ct);
+                    if (user == null)
+                        return Results.Conflict(error: "Usuario não encontrado.");
+                    using (var transaction = await context.Database.BeginTransactionAsync(ct))
                     {
-                        transaction.Rollback();
-                        return StatusCode(500, $"Erro ao desativar o usuário: " + ex);
+                        try
+                        {
+                            user.Delete();
+                            context.Tokens.Remove(verifyToken);
+                            await context.SaveChangesAsync(ct);
+
+                            transaction.Commit();
+                            return Results.Ok("Usuario desativado com sucesso!");
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            return Results.BadRequest(new { message = "Erro ao desativar usuario: " + ex.Message });
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Erro interno no servidor: " + ex);
-            }
-        }
-        public async Task<IActionResult> UpdateUser(string authorizationHeader, UpdateUserRequestDto request, AppDbContext context,CancellationToken ct )
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
-                    return BadRequest("Token inválido");
-
-                string token = authorizationHeader.Substring("Bearer ".Length);
-
-                var verifyToken = await context.Tokens
-               .FirstOrDefaultAsync(u => u.TokenValue == token, ct);
-
-                if (verifyToken == null)
-                    return NotFound("Token não encontrado.");
-
-                var isUser = await context.Users
-                    .SingleOrDefaultAsync(u => u.Id == verifyToken.TokenUserId && u.Email == request.Email && u.Password == request.Password, ct);
-
-                if (isUser == null)
-                    return Conflict(error: "Os dados não são condizentes.");
-
-                isUser.Update(request.Name, request.Lastname);
-
-                context.Tokens.Remove(verifyToken);
-                await context.SaveChangesAsync(ct);
-
-                var claims = new[]
+                catch (Exception ex)
                 {
-                    new Claim(ClaimTypes.NameIdentifier, isUser.Id.ToString())
-                };
-                    var key = new SymmetricSecurityKey(Convert.FromBase64String(_secretKey));
-                    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    return Results.BadRequest(new { message = "Erro interno no servidor: " + ex.Message });
 
-                    var newToken = new JwtSecurityToken(
-                        claims: claims,
-                        expires: DateTime.Now.AddDays(1),
-                        signingCredentials: creds
-                    );
+                }
+            }).RequireAuthorization();
 
-                    var requestToken = new TokenModel(isUser.Id, new JwtSecurityTokenHandler().WriteToken(newToken));
-                    await context.Tokens.AddAsync(requestToken, ct);
+            userRoutes.MapPut("", handler: async (HttpContext httpContext, UpdateUserRequestDto request, AppDbContext context, CancellationToken ct) =>
+            {
+                try
+                {
+                    var token = httpContext.Request.Headers["Authorization"].ToString();
+
+                    if (string.IsNullOrEmpty(token) || !token.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                        return Results.Conflict(error: "Token inválido ou ausente.");
+
+                    token = token.Substring("Bearer ".Length).Trim();
+
+                    var verifyToken = await context.Tokens
+                        .FirstOrDefaultAsync(u => u.TokenValue == token, ct);
+
+                    if (verifyToken == null)
+                        return Results.Conflict(error: "Token não encontrado.");
+
+                    var isUser = await context.Users
+                        .SingleOrDefaultAsync(u => u.Id == verifyToken.TokenUserId && u.Email == request.Email && u.Password == request.Password, ct);
+
+                    if (isUser == null)
+                        return Results.Conflict(error: "Os dados não são condizentes.");
+
+                    isUser.Update(request.Name, request.Lastname);
+                    context.Tokens.Remove(verifyToken);
+                    await context.SaveChangesAsync(ct);
+
+                    var createToken = TokensService.GenerateToken(isUser.Id);
+
+                    var newToken = new TokenModel(isUser.Id, createToken.TokenValue ?? throw new ArgumentNullException(nameof(createToken.TokenValue)));
+                    await context.Tokens.AddAsync(newToken, ct);
                     int save = await context.SaveChangesAsync(ct);
-                if (save > 0)
-                    return Ok(new { data = new JwtSecurityTokenHandler().WriteToken(newToken), message = "Token Criado com sucesso!" });
 
-                return BadRequest("Erroao salvar o token");
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, "Erro interno no servidor: " + ex);
-            }
+                    if (save > 0)
+                        return Results.Ok(new { data = newToken.TokenValue, message = "Usuario Atualizado com sucesso." });
+
+
+                    return Results.BadRequest("Erro ao salvar o token");
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(new { message = "Erro interno no servidor: " + ex.Message });
+
+                }
+            }).RequireAuthorization();
         }
     }
 }
