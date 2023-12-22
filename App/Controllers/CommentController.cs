@@ -31,11 +31,11 @@ namespace api_todo_lisk.App.Controllers
                 }
             }).RequireAuthorization();
 
-            commentRoutes.MapPost("", handler: async(HttpContent httpContent, CommentsRequestsDto request, AppDbContext context, CancellationToken ct) =>
+            commentRoutes.MapPost("", handler: async(CommentsRequestsDto request, AppDbContext context, CancellationToken ct) =>
             {
                 try
                 {
-                    var newComment = new CommentModel(request.CommentText, request.CommentText, request.CommentTaskId);
+                    var newComment = new CommentModel(request.CommentTitle, request.CommentText, request.CommentTaskId);
                     await context.Comments.AddAsync(newComment, ct);
                     await context.SaveChangesAsync(ct);
 

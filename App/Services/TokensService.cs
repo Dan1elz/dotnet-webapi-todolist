@@ -29,5 +29,28 @@ namespace api_todo_lisk.App.Services
             return new TokenModel(id, tokenString);
 
         }
+        public static bool ValidateToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(Key.secret);
+
+            try
+            {
+                 var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+
+                tokenHandler.ValidateToken(token, tokenValidationParameters, out _);
+
+                return true;
+            } catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

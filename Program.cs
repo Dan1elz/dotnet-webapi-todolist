@@ -81,6 +81,7 @@ namespace api_todo_lisk
             app.UseAuthorization();
             app.UserRoutes();
             app.TaskRoutes();
+            app.CommentRoutes();
             
 
             app.Run();

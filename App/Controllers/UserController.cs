@@ -95,9 +95,15 @@ namespace api_todo_lisk.App.Controllers
                         .FirstOrDefaultAsync(ct);
 
                     if (tokenVerify != null)
-                        return Results.Ok(new { data = tokenVerify.TokenValue, message = "Token Reutilizado" });
-
-
+                    {
+                        if(TokensService.ValidateToken(tokenVerify.TokenValue) == false)
+                        {
+                            context.Tokens.Remove(tokenVerify);
+                            await context.SaveChangesAsync(ct);
+                        } 
+                        else
+                            return Results.Ok(new { data = tokenVerify.TokenValue, message = "Token Reutilizado" });
+                    }
                     var token = TokensService.GenerateToken(loginUser.Id);
 
                     var newToken = new TokenModel(loginUser.Id, token.TokenValue ?? throw new ArgumentNullException(nameof(token.TokenValue)));
