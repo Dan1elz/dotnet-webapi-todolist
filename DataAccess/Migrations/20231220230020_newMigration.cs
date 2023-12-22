@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace api_todo_lisk.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class migrationUniq : Migration
+    public partial class newMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

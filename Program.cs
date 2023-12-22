@@ -15,10 +15,8 @@ namespace api_todo_lisk
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
@@ -43,14 +41,10 @@ namespace api_todo_lisk
                         Scheme = "oauth2",
                         Name = "Bearer",
                         In = ParameterLocation.Header,
-
                     },
                     new List<string>()
                     }
                 });
-
-
-
             });
             builder.Services.AddScoped<AppDbContext>();
 
@@ -74,10 +68,8 @@ namespace api_todo_lisk
             }) ;
 
 
-                var app = builder.Build();
+            var app = builder.Build();
             
-
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -87,8 +79,9 @@ namespace api_todo_lisk
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
             app.UserRoutes();
+            app.TaskRoutes();
+            
 
             app.Run();
         }

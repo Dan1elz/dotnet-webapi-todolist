@@ -9,10 +9,10 @@ namespace api_todo_lisk.App.Models
         public Guid TaskId { get; init; }
 
         [Required]
-        public string? TaskTitle { get; set; }
+        public string TaskTitle { get; set; }
 
         [Required]
-        public string? TaskDescription { get; set; }
+        public string TaskDescription { get; set; }
 
         [Required]
         public DateTime TaskDate { get; init; }
@@ -25,9 +25,10 @@ namespace api_todo_lisk.App.Models
 
         public TaskModel()
         {
-
+            TaskTitle = string.Empty;
+            TaskDescription = string.Empty;
         }
-
+        
         public TaskModel(Guid userid, string tasktitle, string taskdescription, bool taskcompleted)
         {
             TaskTitle = tasktitle;
@@ -35,6 +36,13 @@ namespace api_todo_lisk.App.Models
             TaskDate = DateTime.UtcNow;
             TaskCompleted = taskcompleted ? taskcompleted: false;
             TaskUserId = userid;
+        }
+
+        public void UpdateTask(string title, string description, bool completed)
+        {
+            TaskTitle = title;
+            TaskDescription = description;
+            TaskCompleted = completed;
         }
 
     }

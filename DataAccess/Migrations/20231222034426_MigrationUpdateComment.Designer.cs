@@ -11,8 +11,8 @@ using api_todo_lisk.DataAccess;
 namespace api_todo_lisk.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231217025816_migrationUniq")]
-    partial class migrationUniq
+    [Migration("20231222034426_MigrationUpdateComment")]
+    partial class MigrationUpdateComment
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,9 @@ namespace api_todo_lisk.DataAccess.Migrations
                     b.Property<DateTime>("CommentDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CommentDateUpdate")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("CommentTaskId")
                         .HasColumnType("TEXT");
 
@@ -36,7 +39,8 @@ namespace api_todo_lisk.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CommentUserId")
+                    b.Property<string>("CommentTitle")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("CommentId");

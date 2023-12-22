@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api_todo_lisk.DataAccess;
 
@@ -10,9 +11,11 @@ using api_todo_lisk.DataAccess;
 namespace api_todo_lisk.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231220230020_newMigration")]
+    partial class newMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
@@ -26,9 +29,6 @@ namespace api_todo_lisk.DataAccess.Migrations
                     b.Property<DateTime>("CommentDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CommentDateUpdate")
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid>("CommentTaskId")
                         .HasColumnType("TEXT");
 
@@ -36,8 +36,7 @@ namespace api_todo_lisk.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CommentTitle")
-                        .IsRequired()
+                    b.Property<Guid>("CommentUserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("CommentId");

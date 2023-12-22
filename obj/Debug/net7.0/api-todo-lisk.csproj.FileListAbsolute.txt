@@ -6,6 +6,7 @@ C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\api-todo-lisk
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\api-todo-lisk.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\api-todo-lisk.pdb
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Humanizer.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.Data.Sqlite.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -13,6 +14,12 @@ C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.Ent
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Sqlite.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.OpenApi.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Mono.TextTemplating.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\SQLitePCLRaw.batteries_v2.dll
@@ -22,6 +29,7 @@ C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Swashbuckle.A
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\System.CodeDom.dll
+C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\runtimes\alpine-arm\native\libe_sqlite3.so
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\runtimes\alpine-arm64\native\libe_sqlite3.so
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\runtimes\alpine-x64\native\libe_sqlite3.so
@@ -66,11 +74,3 @@ C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\obj\Debug\net7.0\refint\api-to
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\obj\Debug\net7.0\api-todo-lisk.pdb
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\obj\Debug\net7.0\api-todo-lisk.genruntimeconfig.cache
 C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\obj\Debug\net7.0\ref\api-todo-lisk.dll
-C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
-C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
-C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
-C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
-C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
-C:\xampp\htdocs\projetos\estudos-cs\api-todo-lisk\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
