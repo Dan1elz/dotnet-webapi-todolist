@@ -28,13 +28,13 @@ namespace api_todo_lisk.App.Models
             TaskTitle = string.Empty;
             TaskDescription = string.Empty;
         }
-        
+
         public TaskModel(Guid userid, string tasktitle, string taskdescription, bool taskcompleted)
         {
             TaskTitle = tasktitle;
             TaskDescription = taskdescription;
             TaskDate = DateTime.UtcNow;
-            TaskCompleted = taskcompleted ? taskcompleted: false;
+            TaskCompleted = taskcompleted ? taskcompleted : false;
             TaskUserId = userid;
         }
 
@@ -42,6 +42,10 @@ namespace api_todo_lisk.App.Models
         {
             TaskTitle = title;
             TaskDescription = description;
+            TaskCompleted = completed;
+        }
+        public void UpdateTaskCheckbox(bool completed)
+        {
             TaskCompleted = completed;
         }
 

@@ -5,7 +5,7 @@ namespace api_todo_lisk.DataAccess.Dtos
 {
     public record UserRequestDto(Guid Id, string Name, string Lastname, string Email);
 
-    public record RegisterUserRequestDto(string Name,  string Lastname, string Email, string Password);
+    public record RegisterUserRequestDto(string Name, string Lastname, string Email, string Password);
 
     public record LoginUserRequestDto(string Email, string Password);
 
@@ -17,15 +17,17 @@ namespace api_todo_lisk.DataAccess.Dtos
 
     public record TaskUpdateRequestDto(Guid TaskId, string TaskTitle, string TaskDescription, bool TaskCompleted);
 
+    public record TasksUpdateCheckboxDto(Guid TaskId, bool TaskCompleted);
+
     public record TaskDeleteRequestDto(Guid TaskId);
     public record GetComments(
-        Guid CommentId, 
-        string CommentTitle, 
-        string CommentText, 
-        DateTime CommentDateUpdate, 
-        DateTime CommentDate 
+        Guid CommentId,
+        string CommentText,
+        DateTime CommentDate
     );
-    public record CommentsRequestsDto(string CommentTitle, string CommentText, Guid CommentTaskId);
+    public record CommentsRequestsDto(string CommentText, Guid CommentTaskId);
 
-    public record CommentsUpdateRequestDto(Guid CommentId, string CommentTitle, string CommentText);
+    public record CommentsUpdateRequestDto(Guid CommentId, string CommentText);
+
+
 }

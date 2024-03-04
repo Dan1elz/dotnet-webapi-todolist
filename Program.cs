@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using System.Security.Cryptography.Xml;
 using api_todo_lisk.App.Controllers;
+using Microsoft.Extensions.Options;
 
 namespace api_todo_lisk
 {
@@ -16,6 +17,14 @@ namespace api_todo_lisk
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
+            builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins("http://localhost:4200");
+                policy.AllowCredentials();
+                policy.AllowAnyMethod();
+                policy.AllowAnyHeader();
+                policy.SetIsOriginAllowed(_ => true);
+            }));
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
@@ -59,30 +68,30 @@ namespace api_todo_lisk
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
-                { 
+                {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
-            }) ;
+            });
 
 
             var app = builder.Build();
-            
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
             app.UserRoutes();
             app.TaskRoutes();
             app.CommentRoutes();
-            
+
 
             app.Run();
         }

@@ -13,7 +13,10 @@ namespace api_todo_lisk.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=api-todo-list.db");
+            string dbPath = Path.Combine(Directory.GetCurrentDirectory(), "DataAccess/Database", "api-todo-list.db");
+
+            optionsBuilder.UseSqlite($"Data Source={dbPath}");
+
             optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information); //tirar depois 
             optionsBuilder.EnableSensitiveDataLogging(); // tirar depois
 

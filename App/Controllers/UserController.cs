@@ -2,7 +2,7 @@
 using api_todo_lisk.DataAccess;
 using api_todo_lisk.DataAccess.Dtos;
 using api_todo_lisk.App.Models;
- using api_todo_lisk.App.Services;
+using api_todo_lisk.App.Services;
 
 namespace api_todo_lisk.App.Controllers
 {
@@ -96,11 +96,11 @@ namespace api_todo_lisk.App.Controllers
 
                     if (tokenVerify != null)
                     {
-                        if(TokensService.ValidateToken(tokenVerify.TokenValue) == false)
+                        if (TokensService.ValidateToken(tokenVerify.TokenValue) == false)
                         {
                             context.Tokens.Remove(tokenVerify);
                             await context.SaveChangesAsync(ct);
-                        } 
+                        }
                         else
                             return Results.Ok(new { data = tokenVerify.TokenValue, message = "Token Reutilizado" });
                     }

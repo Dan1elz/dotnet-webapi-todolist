@@ -15,7 +15,7 @@ namespace api_todo_lisk.DataAccess.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
 
             modelBuilder.Entity("api_todo_lisk.App.Models.CommentModel", b =>
                 {
@@ -26,17 +26,10 @@ namespace api_todo_lisk.DataAccess.Migrations
                     b.Property<DateTime>("CommentDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CommentDateUpdate")
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid>("CommentTaskId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CommentText")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CommentTitle")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
